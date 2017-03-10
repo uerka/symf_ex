@@ -1,0 +1,8 @@
+{% if books|length > 0 %}
+    {% for book in books %}
+        {{ book.name }} (author is {{book.author.name}})
+        {{ book.name }} (author is {{book.author.name}})
+    {% endfor %}
+{% else %}
+    no books yet
+{% endif %}
