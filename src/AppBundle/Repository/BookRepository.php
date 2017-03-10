@@ -10,4 +10,56 @@ namespace AppBundle\Repository;
  */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
+    //
+    public function getDataForList()
+    {
+        return $this->createQueryBuilder('b')
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function getDataExtendedForList()
+    {
+        return $this->createQueryBuilder('b')
+                ->select('a, b')
+                ->join('b.author', 'a')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getAllDataForList()
+    {
+        return $this->createQueryBuilder('b')
+                ->join('b.author', 'a')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getSpecificDataForList()
+    {
+        return $this->createQueryBuilder('b')
+                ->select('b.name, a.name')
+                ->join('b.author', 'a')
+                ->getQuery()
+                ->getArrayResult();
+    }
+
+    public function getBooksByAuthorName($authorName)
+    {
+        return $this->createQueryBuilder('b')
+                ->join('b.author', 'a')
+                ->where('a.name=:name')
+                ->setParameter('name', $authorName)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getBooksByAuthor($author)
+    {
+        return $this->createQueryBuilder('b')
+                ->where('b.author=:author')
+                ->setParameter('author', $author)
+                ->getQuery()
+                ->getResult();
+    }
 }
